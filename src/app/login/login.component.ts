@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 
 import { AuthService } from './../services/auth.service';
 
@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private Auth: AuthService,
-    private router: Router
     ) { }
 
   ngOnInit() {}
@@ -34,7 +33,7 @@ export class LoginComponent implements OnInit {
         console.log(err.code);
       }
     });
-    console.log(this.password,this.email);
+    // console.log(this.password,this.email);
   };
 
 }

@@ -43,3 +43,17 @@
 </div>
 </ng-template>
 
+<div class="form">
+  <input type="text" [(ngModel)]="nome" >
+  <input type="text" [(ngModel)]="qtd" >
+  <button type="button" (click)="addProduct()" >enviar</button>
+</div>
+
+<input type="text" name="search" [(ngModel)]="search">
+<div class="lista" *ngFor="let product of products|filter:search; index as i">
+  <div>{{ product.nome}}</div>
+  <div>{{ product.qtd }}</div>
+  <div>{{ product.id }}</div>
+  <button type="button" (click)="removeProduct(product.id)">Remover</button>
+  <button type="button" (click)="atualizar(product)">atualizar</button>
+</div>
