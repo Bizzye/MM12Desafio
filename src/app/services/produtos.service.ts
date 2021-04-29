@@ -43,7 +43,7 @@ export class ProdutosService {
 
   async updateQtd(id, data){
     try {
-      return this.db.collection('products').doc(id).update({qtd: data});
+      return this.db.collection('products').doc(id).update({nome: data});
     } catch (err) {
       console.log(err)
       return err

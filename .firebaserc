@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "desafio564": {
+      "hosting": {
+        "app": [
+          "desafio564"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "desafio564"
+  }
+}

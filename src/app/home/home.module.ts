@@ -1,4 +1,4 @@
-import { FilterPipe } from './../pipes/filter.pipe';
+import { NavModule } from './../shared/nav/nav.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -7,14 +7,14 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    NavModule
   ],
-  declarations: [HomePage,FilterPipe]
+  declarations: [HomePage]
 })
 export class HomePageModule {}

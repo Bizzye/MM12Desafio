@@ -1,0 +1,142 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  background-color: #ebeae8;
+  width: 100vw;
+  min-height: 92vh;
+}
+
+.menu{
+  width: 5vw;
+  min-height: 92vh;
+}
+
+.content {
+  display: flex;
+  width: 90%;
+  margin: auto;
+  margin-top: 10vh;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: center;
+  background-color: #ebeae8;
+}
+
+.button{
+  text-align: center;
+  background-color: #05b56a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.control {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80vw;
+  background-color: white;
+  height: 10vh;
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
+  border-top: #017282 solid 5px;
+  border-bottom: gray solid 3px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.options {
+  display: flex;
+  flex-direction: row;
+}
+
+// svg{
+//   font-weight: bold;
+//   font-size: 1.2vw;
+// }
+
+.entrada{
+  margin-left: 2vw;
+  padding-left: 9%;
+  padding-right: 9%;
+}
+
+.saida{
+  margin-left: 2vw;
+  padding-left: 9%;
+  padding-right: 9%;
+}
+
+.search{
+  margin-right: 3vw;
+  text-indent: 5%;
+  background-color: #ebeae8;
+  color: black;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  height: 72vh;
+  overflow-y: scroll;
+}
+
+.thead {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+}
+
+.tbody {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  color: black;
+}
+
+.col {
+  width: 30vw;
+  height: 8vh;
+  border-bottom: gray solid 1px;
+}
+
+.element{
+  padding-left: 2%;
+  padding-top: 4%;
+}
+
+.inputE{
+  height: 7vh;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
+  text-indent: 2%;
+  background-color: #ebeae8;
+}
+
+.last{
+  display: flex;
+  flex-direction: row;
+  width: 20vw;
+  height: 8vh;
+  border-bottom: gray solid 1px;
+}
+
+.edit{
+  width: 8vw;
+  height: 7vh;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
+  margin-right: 2vw;
+}
+
+.remove{
+  width: 8vw;
+  height: 7vh;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
+  background-color: #ff2600e7;
+}

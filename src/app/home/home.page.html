@@ -1,59 +1,28 @@
-<!-- <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-    <ion-button (click)="logout()"></ion-button>
-  </ion-toolbar>
-</ion-header>
+<app-nav></app-nav>
+<div class="content">
+  <div *ngIf="Auth.user$ | async; then authenticated else guest">
+    <!-- template will replace this div -->
+  </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large"></ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!-- User NOT logged in -->
+  <ng-template #guest>
+  <h3>NÃO TA LOGADO</h3>
+  <p>Login to get started...</p>
 
+  <!-- <button (click)="Auth.googleSignin()">
+    <i class="fa fa-google"></i> Connect Google
+  </button> -->
 
-</ion-content> -->
+  </ng-template>
 
-<div *ngIf="Auth.user$ | async; then authenticated else guest">
-  <!-- template will replace this div -->
+  <!-- User logged in -->
+  <ng-template #authenticated>
+  <div *ngIf="Auth.user$ | async as user">
+    <h3>Howdy, {{ user.nome }}</h3>
+    <h3>Categoria: {{ user.categoria }}</h3>
+    <p>UID: {{ user.uid }}</p>
+    <button (click)="Auth.signOut()">Logout</button>
+  </div>
+  </ng-template>
 </div>
 
-<!-- User NOT logged in -->
-<ng-template #guest>
-<h3>NÃO TA LOGADO</h3>
-<p>Login to get started...</p>
-
-<!-- <button (click)="Auth.googleSignin()">
-  <i class="fa fa-google"></i> Connect Google
-</button> -->
-
-</ng-template>
-
-
-<!-- User logged in -->
-<ng-template #authenticated>
-<div *ngIf="Auth.user$ | async as user">
-  <h3>Howdy, {{ user.nome }}</h3>
-  <h3>Categoria: {{ user.categoria }}</h3>
-  <p>UID: {{ user.uid }}</p>
-  <button (click)="Auth.signOut()">Logout</button>
-</div>
-</ng-template>
-
-<div class="form">
-  <input type="text" [(ngModel)]="nome" >
-  <input type="text" [(ngModel)]="qtd" >
-  <button type="button" (click)="addProduct()" >enviar</button>
-</div>
-
-<input type="text" name="search" [(ngModel)]="search">
-<div class="lista" *ngFor="let product of products|filter:search; index as i">
-  <div>{{ product.nome}}</div>
-  <div>{{ product.qtd }}</div>
-  <div>{{ product.id }}</div>
-  <button type="button" (click)="removeProduct(product.id)">Remover</button>
-  <button type="button" (click)="atualizar(product)">atualizar</button>
-</div>
