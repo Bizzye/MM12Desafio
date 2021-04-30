@@ -1,3 +1,4 @@
+import { HomePageRoutingModule } from './../home/home-routing.module';
 import { ProductPageRoutingModule } from './../product/product-routing.module';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'product',
     component: ProductPageRoutingModule
+  },
+  {
+    path: 'home',
+    component: HomePageRoutingModule
   }
 ];
 

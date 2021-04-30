@@ -1,0 +1,63 @@
+.container{
+  background-color: #053742;
+  width: 100%;
+  height: 100vh;
+}
+
+.form{
+  width: 30vw;
+  height: 65vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: white;
+}
+
+.form h1{
+  color: Black;
+  font-weight: 500;
+  margin-bottom: 2vh;
+  margin-top: 8vh;
+  text-transform: uppercase;
+}
+
+.input{
+  border: 0;
+  background: #f2f2f2;
+  margin: 20px auto;
+  text-align: center;
+  border-radius: 2px solid #1d7d92;
+  padding: 14px 10px;
+  width: 20vw;
+  outline: none;
+  color: black;
+  transition: 0.25s;
+}
+
+.form input[type = "text"]:focus, .form input[type = "password"]:focus{
+  width: 22vw;
+  border-color: #1d7d92;
+}
+
+.button{
+  margin: 5vh auto;
+  width: 8vw;
+  height: 7vh;
+  text-align: center;
+  background-color: #053742;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  color: white;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.button:hover{
+  background-color: #2ecc71;
+}

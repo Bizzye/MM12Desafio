@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../services/auth.service';
 import { ProdutosService } from './../services/produtos.service';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 import * as moment from 'moment';
+import { MovimentacaoComponent } from './movimentacao/movimentacao.component';
 
 @Component({
   selector: 'app-product',
@@ -18,7 +20,7 @@ export class ProductPage implements OnInit {
   public search = '';
   public editar:boolean = false;
 
-  constructor(public Auth:AuthService, public productsS: ProdutosService ) {}
+  constructor(private dialog: MatDialog,public Auth:AuthService, public productsS: ProdutosService ) {}
 
   ngOnInit(): void {
     this.productsS.getProducts().then((products: any) => {
@@ -57,6 +59,8 @@ export class ProductPage implements OnInit {
   atualizar(product){
     let id = product.id;
     let data = product.nome;
+    let campo = Object.keys(product);
+    console.log(campo);
     this.productsS.updateQtd(id, data).then(d => {
       this.productsS.getProducts().then((products: any) => {
         this.products = products;
@@ -67,5 +71,15 @@ export class ProductPage implements OnInit {
 
   edit(){
     this.editar = !this.editar;
+  }
+
+  openDialog() {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    this.dialog.open(MovimentacaoComponent, {data: this.nome});
   }
 }

@@ -1,28 +1,16 @@
-<app-nav></app-nav>
-<div class="content">
-  <div *ngIf="Auth.user$ | async; then authenticated else guest">
-    <!-- template will replace this div -->
+<ion-content>
+  <app-nav></app-nav>
+  <div class="container">
+    <div class="menu">
+      <app-menu></app-menu>
+    </div>
+    <div class="content">
+      <div *ngIf="Auth.user$ | async as user">
+        <h3>Howdy, {{ user.nome }}</h3>
+        <h3>Categoria: {{ user.categoria }}</h3>
+        <p>UID: {{ user.uid }}</p>
+        <button (click)="Auth.signOut()">Logout</button>
+      </div>
+    </div>
   </div>
-
-  <!-- User NOT logged in -->
-  <ng-template #guest>
-  <h3>NÃO TA LOGADO</h3>
-  <p>Login to get started...</p>
-
-  <!-- <button (click)="Auth.googleSignin()">
-    <i class="fa fa-google"></i> Connect Google
-  </button> -->
-
-  </ng-template>
-
-  <!-- User logged in -->
-  <ng-template #authenticated>
-  <div *ngIf="Auth.user$ | async as user">
-    <h3>Howdy, {{ user.nome }}</h3>
-    <h3>Categoria: {{ user.categoria }}</h3>
-    <p>UID: {{ user.uid }}</p>
-    <button (click)="Auth.signOut()">Logout</button>
-  </div>
-  </ng-template>
-</div>
-
+</ion-content>

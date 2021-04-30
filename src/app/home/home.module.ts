@@ -1,3 +1,4 @@
+import { MenuPageModule } from './../menu/menu.module';
 import { NavModule } from './../shared/nav/nav.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -13,7 +14,8 @@ import { HomePageRoutingModule } from './home-routing.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    NavModule
+    NavModule,
+    MenuPageModule
   ],
   declarations: [HomePage]
 })
