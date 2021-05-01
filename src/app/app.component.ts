@@ -13,6 +13,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit(){
     this.Auth.onAuthStateChanged(user => {
+      console.log(user.uid)
       if (user){
         this.router.navigate(['home'])
       } else{

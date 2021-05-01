@@ -58,4 +58,10 @@ export class AuthService {
 
   };
 
+  pegaIdUsuario():void {
+      this.Auth.onAuthStateChanged(user =>{
+      return user.uid
+      })
+  };
+
 }

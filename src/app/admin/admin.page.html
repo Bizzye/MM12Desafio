@@ -1,0 +1,37 @@
+<ion-content>
+  <app-nav></app-nav>
+  <div class="container">
+    <div class="menu">
+      <app-menu></app-menu>
+    </div>
+    <div class="content">
+  <div class="table">
+    <div class="thead">
+    <div class="col">
+      <div class="element">Nome</div>
+    </div>
+    <div class="col">
+      <div class="element">Quantidade</div>
+    </div>
+    <div class="last">
+      <div class="element"></div>
+    </div>
+    </div>
+    <div class="tbody" *ngFor="let product of products|filter:search; index as i">
+      <div class="col">
+        <div class="element" *ngIf="editar==false">{{ product.nome }}</div>
+        <input type="text" [(ngModel)]="product.nome" *ngIf="editar==true" class="inputE">
+      </div>
+      <div class="col">
+        <div class="element">{{ product.qtd }}</div>
+      </div>
+      <div class="last">
+        <div class="button edit" (click)="edit()" *ngIf="editar==false">Editar</div>
+        <div class="button confirm" (click)="atualizar(product)" *ngIf="editar==true">Confirmar</div>
+        <div class="button remove" (click)="removeProduct(product.id)" *ngIf="editar==false">Remover</div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,120 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  background-color: #ebeae8;
+  width: 100vw;
+  min-height: 92vh;
+}
+
+.menu{
+  width: 5vw;
+  min-height: 92vh;
+}
+
+.content {
+  display: flex;
+  width: 90%;
+  margin: auto;
+  margin-top: 10vh;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: center;
+  background-color: #ebeae8;
+}
+
+.button{
+  text-align: center;
+  background-color: #2ecc71;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.search{
+  margin-right: 3vw;
+  text-indent: 12%;
+  background-color: #ebeae8;
+  color: black;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position-x: 3%;
+  background-position-y: 45%;
+}
+
+
+.table {
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  height: 72vh;
+  overflow-y: scroll;
+}
+
+.thead {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+}
+
+.tbody {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  color: black;
+}
+
+.col {
+  width: 30vw;
+  height: 8vh;
+  border-bottom: gray solid 1px;
+}
+
+.last{
+  display: flex;
+  flex-direction: row;
+  width: 20vw;
+  height: 8vh;
+  border-bottom: gray solid 1px;
+}
+
+.element{
+  padding-left: 2%;
+  padding-top: 4%;
+}
+
+.inputE{
+  height: 7vh;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
+  text-indent: 2%;
+  background-color: #ebeae8;
+}
+
+.edit{
+  width: 8vw;
+  height: 7vh;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
+  margin-right: 2vw;
+  background-color: rgba(255, 255, 0, 0.911);
+}
+
+.remove{
+  width: 8vw;
+  height: 7vh;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
+  background-color: #ff2600e7;
+}
+
+.confirm{
+  background-color: #2ecc71;
+  width: 8vw;
+  height: 7vh;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
+  margin-right: 2vw;
+}

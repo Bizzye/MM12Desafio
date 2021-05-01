@@ -12,9 +12,6 @@ import { environment } from 'src/environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { LoginComponent } from './login/login.component';
-import { MovimentacaoComponent } from './product/movimentacao/movimentacao.component';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -24,7 +21,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent,
     LoginComponent
   ],
-  entryComponents: [MovimentacaoComponent],
+  entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -33,8 +30,6 @@ import { AppRoutingModule } from './app-routing.module';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    SweetAlert2Module,
-    MatDialogModule,
     BrowserAnimationsModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

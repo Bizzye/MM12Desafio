@@ -1,3 +1,5 @@
+import { AdminPageRoutingModule } from './../admin/admin-routing.module';
+import { HistoryPageRoutingModule } from './../history/history-routing.module';
 import { HomePageRoutingModule } from './../home/home-routing.module';
 import { ProductPageRoutingModule } from './../product/product-routing.module';
 import { NgModule } from '@angular/core';
@@ -17,6 +19,14 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomePageRoutingModule
+  },
+  {
+    path: 'history',
+    component: HistoryPageRoutingModule
+  },
+  {
+    path: 'admin',
+    component: AdminPageRoutingModule
   }
 ];
 

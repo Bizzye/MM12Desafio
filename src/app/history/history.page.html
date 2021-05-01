@@ -1,0 +1,46 @@
+<ion-content>
+  <app-nav></app-nav>
+  <div class="container">
+    <div class="menu">
+      <app-menu></app-menu>
+    </div>
+    <div class="content">
+      <div class="table">
+        <div class="thead">
+          <div class="col">
+            <div class="element">Data</div>
+          </div>
+        <div class="col">
+          <div class="element">Nome</div>
+        </div>
+        <div class="col">
+          <div class="element">Quantidade Movimentada</div>
+        </div>
+        <div class="col">
+          <div class="element">Tipo de Movimentação</div>
+        </div>
+        <div class="last">
+          <div class="element">Quantidade Atual</div>
+        </div>
+        </div>
+        <div class="tbody" *ngFor="let item of history|filter:search; index as i">
+          <div class="col">
+            <div class="element">{{ item.dataT | date:"dd/MM/yyyy h:mm" }}</div>
+          </div>
+          <div class="col">
+            <div class="element">{{ item.itemT.nome }}</div>
+          </div>
+          <div class="col">
+            <div class="element">{{ item.itemT.qtd }}</div>
+          </div>
+          <div class="col">
+            <div class="element">{{ item.tipoT }}</div>
+          </div>
+          <div class="last">
+            <div class="element">{{ item.itemT.qtdPasssado }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
