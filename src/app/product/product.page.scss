@@ -34,7 +34,7 @@
 .control {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 80vw;
   background-color: white;
   height: 10vh;
@@ -57,15 +57,38 @@
 // }
 
 .entrada{
-  margin-left: 1.5vw;
+  margin-left: 1%;
+  margin-bottom: 1%;
+  margin-top: 1%;
   padding-left: 9%;
   padding-right: 9%;
+  width: 48%;
+  height: 90%;
+  font-size: 1.3vw;
+  svg{
+    height: 100%;
+    width: 25%;
+  }
 }
 
 .saida{
-  margin-left: 1.5vw;
+  margin-left: 2%;
   padding-left: 9%;
   padding-right: 9%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+  width: 48%;
+  height: 90%;
+  svg{
+    height: 100%;
+    width: 25%;
+  }
+  font-size: 1.5vw;
+}
+
+.saida:hover{
+  opacity: 90%;
+  transition: 0.4s;
 }
 
 .search{
@@ -77,6 +100,8 @@
   background-repeat: no-repeat;
   background-position-x: 3%;
   background-position-y: 45%;
+  width: 15vw;
+  height: 100%;
 }
 
 .table {
@@ -85,6 +110,7 @@
   width: 80vw;
   height: 72vh;
   overflow-y: scroll;
+  font-size: 2vw;
 }
 
 .thead {
@@ -103,7 +129,7 @@
 }
 
 .col {
-  width: 30vw;
+  width: 20vw;
   height: 8vh;
   border-bottom: gray solid 1px;
 }
@@ -129,28 +155,57 @@
   border-bottom: gray solid 1px;
 }
 
-.edit{
-  width: 8vw;
-  height: 7vh;
-  margin-top: 0.5vh;
-  margin-bottom: 0.5vh;
-  margin-right: 2vw;
-  background-color: rgba(255, 255, 0, 0.911);
+@media only screen and (max-width: 900px){
+  .table{
+    font-size: 2.5vw;
+  }
+  .entrada{
+    font-size: 2.5vw;
+  }
+  .saida{
+    font-size: 3vw;
+  }
+  .search{
+    text-indent: 20%;
+  }
 }
 
-.remove{
-  width: 8vw;
-  height: 7vh;
-  margin-top: 0.5vh;
-  margin-bottom: 0.5vh;
-  background-color: #ff2600e7;
+@media only screen and (max-width: 700px){
+  .table{
+    width: 90vw;
+    font-size: 3vw;
+  }
+
+  .menu{
+    width: 7vw;
+  }
+
+  .entrada{
+    font-size: 2.9vw;
+  }
+  .saida{
+    font-size: 3vw;
+  }
+
+  .control{
+    width: 90vw;
+  }
+
+  .col{
+    width: 25%;
+  }
+
+  .last{
+    width: 25%;
+  }
+
+  .search{
+    width: 40vw;
+  }
 }
 
-.confirm{
-  background-color: #2ecc71;
-  width: 8vw;
-  height: 7vh;
-  margin-top: 0.5vh;
-  margin-bottom: 0.5vh;
-  margin-right: 2vw;
+@media only screen and (max-width: 400px){
+  .table{
+    font-size: 3.5vw;
+  }
 }

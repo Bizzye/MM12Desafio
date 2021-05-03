@@ -5,32 +5,53 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 }
 
 ul{
   margin:0;
   padding:0;
+  width: 90%;
 }
 
 li{
-  padding-top: 5vh;
   display: flex;
   flex-direction: column;
   list-style: none;
   align-items: center;
+  margin-bottom: 4vh;
+  margin-top: 4vh;
+  height: 7vh;
+  padding: 1vh 0 1vh;
 }
+
+li:hover{
+  background-color: white;
+  border-radius: 5px;
+}
+
 
 a{
   text-decoration: none;
 }
 
 svg{
-  height: 25px;
-  width: 35px;
+  height: 5vh;
+  width: 4vw;
 }
 
 .log{
   margin: 4vh auto;
   color: #3880ff;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 700px){
+  .container{
+    width: 7vw;
+  }
+  svg{
+    width: 5vw;
+    height: 5vh;
+  }
 }

@@ -1,6 +1,8 @@
 import { ProdutosService } from './../services/produtos.service';
 import { Component, OnInit } from '@angular/core';
 
+import Swal  from 'sweetalert2';
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.page.html',
@@ -22,6 +24,47 @@ export class AdminPage implements OnInit {
     });
   }
 
+
+  addProduct(){
+    if(this.nome == null || this.nome == ''){
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Não esqueça do nome!',
+        heightAuto: false
+      })
+    }
+    else if(this.qtd == null){
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Não esqueça da quantidade!',
+        heightAuto: false
+      })
+    }
+    else if(this.qtd < 0 ){
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Digite uma quantidade maior que zero!',
+        heightAuto: false
+      })
+    }
+    else{
+      let product = {
+        nome: this.nome,
+        qtd: this.qtd,
+        dataC: new Date().getTime()
+      };
+      this.productsS.insertProduct(product).then(d => {
+        this.productsS.getProducts().then((products: any) => {
+          this.products = products;
+        });
+      });
+      this.qtd = null;
+      this.nome = null;
+    }
+  }
 
   removeProduct(id){
     this.productsS.removeProduct(id).then(d => {

@@ -5,6 +5,13 @@
       <app-menu></app-menu>
     </div>
     <div class="content">
+      <div class="control">
+        <div class="form">
+          <input type="text" [(ngModel)]="nome" placeholder="Nome do produto" class="inputF">
+          <input type="number" min="0" [(ngModel)]="qtd" placeholder="Quantidade inicial" class="inputF" (keyup.enter)="addProduct()">
+          <button type="button" (click)="addProduct()" class="ok" >enviar</button>
+        </div>
+      </div>
   <div class="table">
     <div class="thead">
     <div class="col">

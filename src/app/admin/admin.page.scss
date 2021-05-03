@@ -11,6 +11,54 @@
   min-height: 92vh;
 }
 
+.control{
+  height: 10vh;
+  width: 80vw;
+  background-color: white;
+  border-top: #017282 solid 5px;
+  border-bottom: gray solid 3px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.form{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 5vh;
+  margin-top: 2.5vh;
+  margin-bottom: 2.5vh;
+}
+
+.inputF{
+  margin-right: 3vw;
+  background: white;
+  border: gray 1px solid;
+  border-radius: 4px;
+  color: black;
+  text-indent: 5%;
+  width: 20%;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.ok{
+  border: gray 1px solid;
+  border-radius: 4px;
+  background: white;
+  color: black;
+}
+
+.ok:hover{
+  background: black;
+  color: white;
+  transition: 0.4s;
+}
+
 .content {
   display: flex;
   width: 90%;
@@ -49,6 +97,7 @@
   width: 80vw;
   height: 72vh;
   overflow-y: scroll;
+  font-size: 1.5vw;
 }
 
 .thead {
@@ -87,6 +136,7 @@
 
 .inputE{
   height: 7vh;
+  width: 100%;
   margin-top: 0.5vh;
   margin-bottom: 0.5vh;
   text-indent: 2%;
@@ -108,6 +158,7 @@
   margin-top: 0.5vh;
   margin-bottom: 0.5vh;
   background-color: #ff2600e7;
+  font-size: 1.5vw;
 }
 
 .confirm{
@@ -118,3 +169,63 @@
   margin-bottom: 0.5vh;
   margin-right: 2vw;
 }
+
+@media only screen and (max-width: 900px){
+  .table{
+    font-size: 2vw;
+  }
+  .edit{
+    font-size: 2vw;
+    width: 40%;
+  }
+  .confirm{
+    font-size: 1.7vw;
+    width: 40%;
+  }
+  .remove{
+    font-size: 1.8vw;
+    width: 40%;
+  }
+}
+
+@media only screen and (max-width: 700px){
+  .table{
+    width: 90vw;
+    font-size: 3vw;
+  }
+
+  .menu{
+    width: 7vw;
+  }
+
+  .edit{
+    font-size: 2.9vw;
+  }
+  .confirm{
+    font-size: 3vw;
+  }
+
+  .control{
+    width: 90vw;
+  }
+
+  .col{
+    width: 34%;
+  }
+
+  .last{
+    width: 32%;
+  }
+  .confirm{
+    font-size: 2vw;
+  }
+}
+@media only screen and (max-width: 450px){
+  .table{
+    font-size: 4vw;
+  }
+  .confirm{
+    font-size: 2.5vw;
+  }
+}
+

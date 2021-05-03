@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ProdutosService } from './../services/produtos.service';
 
-import * as moment from 'moment';
 import Swal  from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss'
 
@@ -40,59 +39,49 @@ export class ProductPage implements OnInit {
     this.Auth.signOut();
   }
 
-  addProduct(){
-    let product = {
-      nome: this.nome,
-      qtd: this.qtd,
-      dataC: moment().format('DD/MM/YYYY'),
-      saida: [],
-      entrada: [{qtdE: this.qtd, dataE: moment().format('DD/MM/YYYY')}]
-    };
-
-    this.productsS.insertProduct(product).then(d => {
-      this.productsS.getProducts().then((products: any) => {
-        this.products = products;
-      });
-    });
-  }
-
   entrada(product){
     Swal.mixin({
       input: 'text',
       confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
       progressSteps: ['1'],
+      heightAuto: false
     }).queue([
       {
         title: 'Entrada de Estoque',
-        text: 'Qual a quantidade de entrada'
+        text: 'Qual a quantidade de entrada?'
       }
     ]).then((result:{value,dismiss}) => {
       if(!(result.dismiss === Swal.DismissReason.cancel)){
-        let qtdR = parseInt(result.value[0]);
-        let Newqtd = product.qtd + qtdR;
-        if (qtdR > parseInt(product.qtd)){
-        console.log(product.qtd);
-          Swal.fire({
-            title: 'All done!',
-            html: `
-              Your answers:
-            `,
-            confirmButtonText: 'Lovely!'
+        let qtdR:number = parseInt(result.value[0]);
+        let Newqtd = parseInt(product.qtd) + qtdR;
+        if(typeof qtdR !== 'number' || isNaN(qtdR)){
+          return Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Número inválido!',
+            heightAuto: false
+          })
+        }
+        else if(qtdR < 0 ){
+          return Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Digite uma quantidade maior que zero!',
+            heightAuto: false
           })
         }
         else if (result.value) {
-          const answers = JSON.stringify(result.value)
           let data = {
             dataT : new Date().getTime(),
             itemT : {
               id : product.id,
               nome: product.nome,
-              qtdE: qtdR,
+              qtdMovimentado: qtdR,
               qtdpassado: product.qtd,
               qtd: Newqtd
             },
-            tipoT: "entrada",
+            tipoT: "Entrada",
             uid: this.uid
           }
           this.historyS.movimentacao(product.id, Newqtd);
@@ -102,12 +91,10 @@ export class ProductPage implements OnInit {
             });
           });
           Swal.fire({
-            title: 'All done!',
-            html: `
-              Your answers:
-              <pre><code>${answers}</code></pre>
-            `,
-            confirmButtonText: 'Lovely!'
+            icon: 'success',
+            title: 'Chegou aqui no estoque!',
+            text: 'Produto adicionado com sucesso!',
+            heightAuto: false
           })
         }
       }
@@ -120,6 +107,7 @@ export class ProductPage implements OnInit {
       confirmButtonText: 'Next &rarr;',
       showCancelButton: true,
       progressSteps: ['1', '2'],
+      heightAuto: false
     }).queue([
       {
         title: 'Retirada de Estoque',
@@ -133,15 +121,37 @@ export class ProductPage implements OnInit {
       if(!(result.dismiss === Swal.DismissReason.cancel)){
         let qtdR = parseInt(result.value[0]);
         let desc = result.value[1];
-        let Newqtd = product.qtd - qtdR;
-        if (qtdR > parseInt(product.qtd)){
-        console.log(product.qtd);
-          Swal.fire({
-            title: 'All done!',
-            html: `
-              Your answers:
-            `,
-            confirmButtonText: 'Lovely!'
+        let Newqtd = parseInt(product.qtd) - qtdR;
+        if(typeof qtdR !== 'number' || isNaN(qtdR)){
+          return Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Número inválido',
+            heightAuto: false
+          })
+        }
+        else if(qtdR < 0 ){
+          return Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Digite uma quantidade maior que zero!',
+            heightAuto: false
+          })
+        }
+        else if (qtdR > parseInt(product.qtd)){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Não temos tudo isso no estoque :(',
+          heightAuto: false
+        })
+        }
+        else if(qtdR < 0 ){
+          return Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Digite uma quantidade maior que zero!',
+            heightAuto: false
           })
         }
         else if (result.value) {
@@ -151,11 +161,11 @@ export class ProductPage implements OnInit {
             itemT : {
               id : product.id,
               nome: product.nome,
-              qtdS: qtdR,
+              qtdMovimentado: qtdR,
               qtdpassado: product.qtd,
               qtd: Newqtd
             },
-            tipoT: "saida",
+            tipoT: "Saída",
             uid: this.uid,
             desc: desc
           }
@@ -166,12 +176,10 @@ export class ProductPage implements OnInit {
             });
           });
           Swal.fire({
-            title: 'All done!',
-            html: `
-              Your answers:
-              <pre><code>${answers}</code></pre>
-            `,
-            confirmButtonText: 'Lovely!'
+            icon: 'success',
+            title: 'Vendeu bastante!',
+            text: 'A quantidade solicitada já está descontada!',
+            heightAuto: false
           })
         }
       }

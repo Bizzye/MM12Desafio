@@ -10,18 +10,18 @@
           <div class="col">
             <div class="element">Data</div>
           </div>
-        <div class="col">
-          <div class="element">Nome</div>
-        </div>
-        <div class="col">
-          <div class="element">Quantidade Movimentada</div>
-        </div>
-        <div class="col">
-          <div class="element">Tipo de Movimentação</div>
-        </div>
-        <div class="last">
-          <div class="element">Quantidade Atual</div>
-        </div>
+          <div class="col">
+            <div class="element">Nome</div>
+          </div>
+          <div class="col">
+            <div class="element">Quantidade Anterior</div>
+          </div>
+          <div class="col">
+            <div class="element">Quantidade Movimentada</div>
+          </div>
+          <div class="col">
+            <div class="element">Tipo de Movimentação</div>
+          </div>
         </div>
         <div class="tbody" *ngFor="let item of history|filter:search; index as i">
           <div class="col">
@@ -31,13 +31,13 @@
             <div class="element">{{ item.itemT.nome }}</div>
           </div>
           <div class="col">
-            <div class="element">{{ item.itemT.qtd }}</div>
+            <div class="element">{{ item.itemT.qtdpassado }}</div>
+          </div>
+          <div class="col">
+            <div class="element">{{ item.itemT.qtdMovimentado }}</div>
           </div>
           <div class="col">
             <div class="element">{{ item.tipoT }}</div>
-          </div>
-          <div class="last">
-            <div class="element">{{ item.itemT.qtdPasssado }}</div>
           </div>
         </div>
       </div>

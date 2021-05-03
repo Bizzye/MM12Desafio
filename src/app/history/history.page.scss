@@ -47,8 +47,13 @@
   display: flex;
   flex-direction: column;
   width: 80vw;
-  height: 72vh;
+  height: 82vh;
   overflow-y: scroll;
+  border-top: #017282 solid 5px;
+  border-bottom: gray solid 3px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-size: 1.4vw;
 }
 
 .thead {
@@ -67,7 +72,7 @@
 }
 
 .col {
-  width: 30vw;
+  width: 20%;
   height: 8vh;
   border-bottom: gray solid 1px;
 }
@@ -75,4 +80,52 @@
 .element{
   padding-left: 2%;
   padding-top: 4%;
+  text-align: center;
+}
+
+@media only screen and (max-width: 900px){
+  .table{
+    font-size: 2vw;
+  }
+  .entrada{
+    font-size: 1.7vw;
+  }
+  .saida{
+    font-size: 2vw;
+  }
+}
+
+@media only screen and (max-width: 700px){
+  .table{
+    width: 90vw;
+    font-size: 3vw;
+  }
+
+  .thead{
+    font-size: 2.5vw;
+  }
+
+  .menu{
+    width: 7vw;
+  }
+
+  .entrada{
+    font-size: 2.9vw;
+  }
+  .saida{
+    font-size: 3vw;
+  }
+
+  .control{
+    width: 90vw;
+  }
+
+  .col{
+    width: 20%;
+  }
+}
+@media only screen and (max-width: 400px){
+  .table{
+    font-size: 3.5vw;
+  }
 }

@@ -5,7 +5,7 @@
 }
 
 .form{
-  width: 30vw;
+  width: 40vw;
   height: 65vh;
   position: absolute;
   top: 50%;
@@ -60,4 +60,24 @@
 
 .button:hover{
   background-color: #2ecc71;
+}
+
+@media only screen and (max-width: 700px){
+  .form{
+    width: 70%;
+    height: 80%;
+  }
+
+  .input{
+    width: 70%
+  }
+
+  .form input[type = "text"]:focus, .form input[type = "password"]:focus{
+    width: 80%;
+  }
+
+  .button{
+    width: 10vw;
+    font-size: 1.5vw;
+  }
 }
