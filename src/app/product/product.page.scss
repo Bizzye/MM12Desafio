@@ -132,11 +132,13 @@
   width: 20vw;
   height: 8vh;
   border-bottom: gray solid 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .element{
-  padding-left: 2%;
-  padding-top: 4%;
+  margin: auto;
 }
 
 .inputE{
