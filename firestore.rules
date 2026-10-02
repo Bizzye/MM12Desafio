@@ -1,7 +1,7 @@
 rules_version = '2';
 
 // Regras de segurança do Firestore.
-// Deploy: firebase deploy --only firestore:rules --project mm12desafio
+// Deploy: firebase deploy --only firestore:rules --project desafio564
 //
 // Modelo de acesso:
 //  - users/{uid}: o perfil (nome, categoria) só é legível pelo próprio usuário e

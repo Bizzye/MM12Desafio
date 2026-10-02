@@ -10,11 +10,11 @@ import { Environment } from './environment.model';
 export const environment: Environment = {
   demoMode: false,
   firebase: {
-    apiKey: 'AIzaSyC3vDT9zJvwGV_Vd17oU6elB5sxdyojhv0',
-    authDomain: 'mm12desafio.firebaseapp.com',
-    projectId: 'mm12desafio',
-    storageBucket: 'mm12desafio.appspot.com',
-    messagingSenderId: '120114148076',
-    appId: '1:120114148076:web:93b384e538590b412b6bc9',
+    apiKey: 'AIzaSyBoj6yVGOrToe3hgKIeOUvDBDjF2y80ZI8',
+    authDomain: 'desafio564.firebaseapp.com',
+    projectId: 'desafio564',
+    storageBucket: 'desafio564.firebasestorage.app',
+    messagingSenderId: '448865144404',
+    appId: '1:448865144404:web:6f7ad6f1d7268084c127c1',
   },
 };
