@@ -12,9 +12,11 @@ Desafio técnico do processo seletivo da **MM12** — construído em 2021 e mode
 ![Ionic](https://img.shields.io/badge/Ionic-9-3880FF?logo=ionic&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-12-FFCA28?logo=firebase&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)
+![Capacitor](https://img.shields.io/badge/Capacitor-8-119EFF?logo=capacitor&logoColor=white)
+[![Android APK](https://github.com/Bizzye/MM12Desafio/actions/workflows/android.yml/badge.svg)](https://github.com/Bizzye/MM12Desafio/actions/workflows/android.yml)
 ![Coverage](https://img.shields.io/badge/cobertura-96%25-2ecc71)
 
-[**🧪 Demo online**](https://bizzye.github.io/MM12Desafio/) · [**🚀 Produção**](https://desafio564.web.app) · [**🔍 Code review**](docs/CODE_REVIEW.md)
+[**🧪 Demo online**](https://bizzye.github.io/MM12Desafio/) · [**📱 Baixar APK**](https://github.com/Bizzye/MM12Desafio/releases/latest/download/mm12-estoque.apk) · [**🚀 Produção**](https://desafio564.web.app) · [**🔍 Code review**](docs/CODE_REVIEW.md)
 
 <img src="docs/screenshots/02-home.png" alt="Tela inicial do MM12 Estoque" width="900" />
 
@@ -50,10 +52,13 @@ A versão original (2021) atendia aos requisitos, mas acumulava dívidas técnic
 
 ## 🧪 Experimente
 
-|              | Link                                                                  | Dados                                                 |
-| ------------ | --------------------------------------------------------------------- | ----------------------------------------------------- |
-| **Demo**     | [bizzye.github.io/MM12Desafio](https://bizzye.github.io/MM12Desafio/) | Fictícios, em memória — nada é salvo ao fechar a aba  |
-| **Produção** | [desafio564.web.app](https://desafio564.web.app)                      | Firebase (Auth + Firestore) — requer conta cadastrada |
+|                 | Link                                                                                                         | Dados                                                 |
+| --------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------- |
+| **Demo**        | [bizzye.github.io/MM12Desafio](https://bizzye.github.io/MM12Desafio/)                                        | Fictícios, em memória — nada é salvo ao fechar a aba  |
+| **App Android** | [Baixar `mm12-estoque.apk`](https://github.com/Bizzye/MM12Desafio/releases/latest/download/mm12-estoque.apk) | Mesmo modo demo, empacotado com Capacitor             |
+| **Produção**    | [desafio564.web.app](https://desafio564.web.app)                                                             | Firebase (Auth + Firestore) — requer conta cadastrada |
+
+> **Instalando o APK:** baixe no celular, abra o arquivo e permita "instalar apps de fontes desconhecidas" quando o Android pedir. Requer Android 7.0+. Todas as versões ficam em [Releases](https://github.com/Bizzye/MM12Desafio/releases).
 
 Contas do modo demo (também disponíveis com um clique na tela de login):
 
@@ -106,10 +111,11 @@ Contas do modo demo (também disponíveis com um clique na tela de login):
 | Camada    | Tecnologias                                                                                     |
 | --------- | ----------------------------------------------------------------------------------------------- |
 | Front-end | Angular 22 (standalone, signals, zoneless, control flow), Ionic 9, RxJS 7, SCSS                 |
+| Mobile    | Capacitor 8 (Android, edge-to-edge com safe areas), APK assinado gerado no CI                   |
 | Backend   | Firebase Authentication, Cloud Firestore, Firebase Hosting                                      |
 | Testes    | Karma + Jasmine (unitários), Playwright (E2E desktop/mobile e screenshots)                      |
 | Qualidade | ESLint 10 (`angular-eslint`, `typescript-eslint` strict, a11y), Prettier, TypeScript 6 `strict` |
-| CI/CD     | GitHub Actions, Firebase Hosting, GitHub Pages, CodeQL, Dependabot                              |
+| CI/CD     | GitHub Actions, Firebase Hosting, GitHub Pages, GitHub Releases (APK), CodeQL, Dependabot       |
 
 ## 🏛️ Arquitetura
 
@@ -242,18 +248,21 @@ npm run start:demo
 npm start
 ```
 
-| Script                | Descrição                                         |
-| --------------------- | ------------------------------------------------- |
-| `npm start`           | Servidor de desenvolvimento conectado ao Firebase |
-| `npm run start:demo`  | Servidor de desenvolvimento com dados em memória  |
-| `npm run build`       | Build de produção em `www/`                       |
-| `npm run build:demo`  | Build do modo demo em `www-demo/`                 |
-| `npm test`            | Testes unitários (Karma, modo _watch_)            |
-| `npm run test:ci`     | Testes unitários _headless_ com cobertura         |
-| `npm run e2e`         | Testes E2E (sobe o modo demo automaticamente)     |
-| `npm run screenshots` | Regenera as imagens de `docs/screenshots/`        |
-| `npm run lint`        | ESLint                                            |
-| `npm run format`      | Prettier                                          |
+| Script                   | Descrição                                         |
+| ------------------------ | ------------------------------------------------- |
+| `npm start`              | Servidor de desenvolvimento conectado ao Firebase |
+| `npm run start:demo`     | Servidor de desenvolvimento com dados em memória  |
+| `npm run build`          | Build de produção em `www/`                       |
+| `npm run build:demo`     | Build do modo demo em `www-demo/`                 |
+| `npm test`               | Testes unitários (Karma, modo _watch_)            |
+| `npm run test:ci`        | Testes unitários _headless_ com cobertura         |
+| `npm run e2e`            | Testes E2E (sobe o modo demo automaticamente)     |
+| `npm run screenshots`    | Regenera as imagens de `docs/screenshots/`        |
+| `npm run lint`           | ESLint                                            |
+| `npm run format`         | Prettier                                          |
+| `npm run android:sync`   | Build demo + `cap sync` para o projeto Android    |
+| `npm run android:open`   | Abre o projeto no Android Studio                  |
+| `npm run android:assets` | Regenera ícones e splash do Android               |
 
 > Antes do primeiro `npm run e2e`, instale o navegador: `npx playwright install chromium`.
 
@@ -266,13 +275,15 @@ flowchart LR
   F -->|master| G[Firebase Hosting<br/>produção]
   F -->|master| H[GitHub Pages<br/>demo]
   A --> I[CodeQL]
+  A --> J[Build web demo<br/>+ cap sync] --> K[Gradle assembleRelease<br/>assinado] -->|master| L[GitHub Releases<br/>mm12-estoque.apk]
 ```
 
 Workflows em [`.github/workflows`](.github/workflows). Para o deploy funcionar no seu fork:
 
 1. **Firebase Hosting** — crie o secret `FIREBASE_SERVICE_ACCOUNT` com o JSON de uma conta de serviço (`firebase init hosting:github` gera automaticamente). Sem o secret, o job é ignorado com um aviso.
 2. **GitHub Pages** — em _Settings → Pages_, selecione **GitHub Actions** como _source_.
-3. **Regras do Firestore** — `firebase deploy --only firestore:rules --project mm12desafio`.
+3. **APK assinado** — secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` e `ANDROID_KEY_PASSWORD`. Sem eles, o APK sai assinado com a chave de debug.
+4. **Regras do Firestore** — `firebase deploy --only firestore:rules --project mm12desafio`.
 
 ## 🔄 Antes × depois
 
