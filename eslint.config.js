@@ -32,7 +32,7 @@ module.exports = tseslint.config(
     },
   },
   {
-    files: ['**/*.spec.ts', 'src/testing/**/*.ts'],
+    files: ['**/*.spec.ts', 'src/testing/**/*.ts', 'e2e/**/*.ts'],
     rules: {
       '@typescript-eslint/no-non-null-assertion': 'off',
     },
