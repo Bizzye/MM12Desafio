@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MM12 Estoque</string>
+    <string name="title_activity_main">MM12 Estoque</string>
+    <string name="package_name">io.github.bizzye.mm12estoque</string>
+    <string name="custom_url_scheme">io.github.bizzye.mm12estoque</string>
+</resources>

@@ -1,0 +1,134 @@
+name: Android APK
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'android/**'
+      - 'capacitor.config.ts'
+      - 'angular.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/android.yml'
+  pull_request:
+    paths:
+      - 'android/**'
+      - 'capacitor.config.ts'
+      - '.github/workflows/android.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build do APK
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - run: npm ci
+
+      - name: Versão do app
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Build web (modo demo) e sincroniza com o projeto Android
+        run: |
+          npm run build:demo
+          npx cap sync android
+
+      - name: Prepara keystore de assinatura
+        id: keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
+            echo "path=$RUNNER_TEMP/release.jks" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Secrets da keystore ausentes — APK assinado com a chave de debug."
+          fi
+
+      - name: Gradle assembleRelease
+        working-directory: android
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ steps.keystore.outputs.path }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: >
+          ./gradlew assembleRelease --no-daemon
+          -PappVersionCode=${{ github.run_number }}
+          -PappVersionName=${{ steps.version.outputs.version }}
+
+      - name: Verifica assinatura
+        run: |
+          APK=android/app/build/outputs/apk/release/app-release.apk
+          "$ANDROID_HOME"/build-tools/$(ls "$ANDROID_HOME"/build-tools | sort -V | tail -1)/apksigner verify --print-certs "$APK" | grep -E "certificate (DN|SHA-256)"
+          cp "$APK" mm12-estoque.apk
+
+      - name: Remove keystore temporária
+        if: always()
+        run: rm -f "$RUNNER_TEMP/release.jks"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: mm12-estoque-apk
+          path: mm12-estoque.apk
+          retention-days: 14
+
+  release:
+    name: Publica no GitHub Releases
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: mm12-estoque-apk
+
+      - name: Cria ou atualiza o release v${{ needs.build.outputs.version }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          TAG: v${{ needs.build.outputs.version }}
+        run: |
+          NOTES=$(cat <<EOF
+          APK Android do **MM12 Estoque** (modo demonstração, dados fictícios — não precisa de conta).
+
+          - Administrador: \`admin@mm12.demo\` / \`demo1234\`
+          - Estoquista: \`estoque@mm12.demo\` / \`demo1234\`
+
+          Build #${{ github.run_number }} · commit ${GITHUB_SHA::7}
+          EOF
+          )
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" mm12-estoque.apk --clobber
+            gh release edit "$TAG" --notes "$NOTES" --latest
+          else
+            gh release create "$TAG" mm12-estoque.apk --target "$GITHUB_SHA" \
+              --title "MM12 Estoque $TAG" --notes "$NOTES" --latest
+          fi

@@ -38,3 +38,7 @@ npm-debug.log*
 # Credenciais (contas de serviço do Firebase/GCP) — nunca versionar
 *-firebase-adminsdk-*.json
 service-account*.json
+
+# Keystores de assinatura Android — nunca versionar
+*.jks
+*.keystore
