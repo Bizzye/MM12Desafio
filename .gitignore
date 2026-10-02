@@ -34,3 +34,7 @@ Thumbs.db
 npm-debug.log*
 .env
 .env.*
+
+# Credenciais (contas de serviço do Firebase/GCP) — nunca versionar
+*-firebase-adminsdk-*.json
+service-account*.json
