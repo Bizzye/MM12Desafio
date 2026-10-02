@@ -1,0 +1,19 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.entry {
+  color: var(--app-success-strong);
+  font-weight: 600;
+}
+
+.exit {
+  color: #b07f00;
+  font-weight: 600;
+}
+
+.reason {
+  color: var(--app-text-muted);
+}

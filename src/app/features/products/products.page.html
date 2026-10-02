@@ -1,0 +1,64 @@
+<div class="page">
+  <header class="page__header">
+    <div>
+      <h1>Produtos</h1>
+      <p>Registre entradas e saídas — cada movimentação fica salva no histórico.</p>
+    </div>
+    <label class="search">
+      <span class="visually-hidden">Pesquisar produto</span>
+      <ion-icon name="search-outline" aria-hidden="true" />
+      <input class="input" type="search" placeholder="Pesquisar produto" [(ngModel)]="search" />
+    </label>
+  </header>
+
+  <section class="card table-wrapper">
+    <table class="data-table" aria-label="Lista de produtos">
+      <thead>
+        <tr>
+          <th scope="col">Produto</th>
+          <th scope="col" class="hide-sm">Cadastrado em</th>
+          <th scope="col" class="num">Quantidade</th>
+          <th scope="col" class="num">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of filtered(); track product.id) {
+          <tr data-testid="product-row">
+            <td>{{ product.name }}</td>
+            <td class="hide-sm">{{ product.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td class="num"><app-stock-badge [quantity]="product.quantity" /></td>
+            <td>
+              <div class="actions">
+                <button
+                  type="button"
+                  class="btn btn--success btn--sm"
+                  [attr.aria-label]="'Entrada de ' + product.name"
+                  (click)="registerEntry(product)"
+                >
+                  <ion-icon name="enter-outline" aria-hidden="true" />
+                  <span class="btn__label">Entrada</span>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn--warning btn--sm"
+                  [attr.aria-label]="'Saída de ' + product.name"
+                  [disabled]="product.quantity === 0"
+                  (click)="registerExit(product)"
+                >
+                  <ion-icon name="exit-outline" aria-hidden="true" />
+                  <span class="btn__label">Saída</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="empty-state">
+              {{ loading() ? 'Carregando produtos…' : 'Nenhum produto encontrado.' }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>

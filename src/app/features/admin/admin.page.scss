@@ -1,0 +1,41 @@
+.new-product {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  &--grow {
+    flex: 1 1 260px;
+  }
+
+  input[type='number'] {
+    width: 160px;
+  }
+}
+
+.new-product .btn {
+  height: 2.75rem;
+}
+
+.table-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 1rem 0.25rem;
+}
+
+.input--inline {
+  width: 100%;
+  height: 2.2rem;
+}

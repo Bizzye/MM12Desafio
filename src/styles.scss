@@ -1,0 +1,344 @@
+// ---------------------------------------------------------------------------
+// Design tokens — paleta original do projeto (v1) consolidada em variáveis.
+// ---------------------------------------------------------------------------
+:root {
+  --app-primary: #053742;
+  --app-primary-strong: #032a33;
+  --app-accent: #017282;
+  --app-accent-soft: #e3f2f3;
+  --app-success: #2ecc71;
+  --app-success-strong: #1f9e55;
+  --app-warning: #f5b700;
+  --app-danger: #e5383b;
+  --app-bg: #ebeae8;
+  --app-surface: #ffffff;
+  --app-border: #d9d8d5;
+  --app-text: #1d2427;
+  --app-text-muted: #5f6b70;
+  --app-radius: 10px;
+  --app-shadow: 0 1px 2px rgb(0 0 0 / 6%), 0 4px 16px rgb(0 0 0 / 6%);
+
+  --ion-font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --ion-background-color: var(--app-bg);
+  --ion-overlay-background-color: var(--app-surface);
+  --ion-text-color: var(--app-text);
+  --ion-color-primary: var(--app-accent);
+  --ion-color-primary-rgb: 1, 114, 130;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #016472;
+  --ion-color-primary-tint: #1a808f;
+  --ion-color-success: var(--app-success-strong);
+  --ion-color-success-rgb: 31, 158, 85;
+  --ion-color-success-contrast: #ffffff;
+}
+
+body {
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: var(--ion-font-family);
+}
+
+*:focus-visible {
+  outline: 3px solid var(--app-accent);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+// ---------------------------------------------------------------------------
+// Página / cartões
+// ---------------------------------------------------------------------------
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--app-primary);
+  }
+
+  p {
+    margin: 0.25rem 0 0;
+    color: var(--app-text-muted);
+  }
+}
+
+.card {
+  background: var(--app-surface);
+  border-top: 5px solid var(--app-accent);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+// ---------------------------------------------------------------------------
+// Formulários e botões
+// ---------------------------------------------------------------------------
+.input {
+  height: 2.75rem;
+  padding: 0 0.875rem;
+  border: 1px solid var(--app-border);
+  border-radius: 6px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  font: inherit;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+
+  &:focus {
+    border-color: var(--app-accent);
+    box-shadow: 0 0 0 3px rgb(1 114 130 / 15%);
+    outline: none;
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--app-danger);
+  }
+}
+
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  ion-icon {
+    position: absolute;
+    left: 0.75rem;
+    color: var(--app-text-muted);
+  }
+
+  .input {
+    width: min(320px, 100%);
+    padding-left: 2.25rem;
+    background: var(--app-bg);
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  height: 2.5rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    filter 0.2s,
+    transform 0.1s;
+
+  &:hover:not(:disabled) {
+    filter: brightness(0.92);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  ion-icon {
+    font-size: 1.15em;
+  }
+
+  &--primary {
+    background: var(--app-primary);
+    color: #fff;
+  }
+
+  &--success {
+    background: var(--app-success);
+    color: #06331a;
+  }
+
+  &--warning {
+    background: var(--app-warning);
+    color: #3d2e00;
+  }
+
+  &--danger {
+    background: var(--app-danger);
+    color: #fff;
+  }
+
+  &--ghost {
+    background: transparent;
+    color: var(--app-text);
+    box-shadow: inset 0 0 0 1px var(--app-border);
+  }
+
+  &--sm {
+    height: 2.1rem;
+    padding: 0 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--app-accent-soft);
+  color: var(--app-accent);
+
+  &--success {
+    background: #dcf7e8;
+    color: #146c3a;
+  }
+
+  &--warning {
+    background: #fff4cc;
+    color: #7a5b00;
+  }
+
+  &--danger {
+    background: #fde2e2;
+    color: #a31d20;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Tabelas
+// ---------------------------------------------------------------------------
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+
+  th,
+  td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--app-border);
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  th {
+    position: sticky;
+    top: 0;
+    background: var(--app-surface);
+    color: var(--app-text-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  tbody tr:hover {
+    background: #f7f7f6;
+  }
+
+  .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+}
+
+.empty-state {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--app-text-muted);
+}
+
+// ---------------------------------------------------------------------------
+// Overlays do Ionic
+// ---------------------------------------------------------------------------
+.app-alert {
+  --max-width: 360px;
+
+  .app-alert__danger {
+    color: var(--app-danger);
+  }
+
+  &.app-alert--error .alert-message {
+    color: #a31d20;
+    font-weight: 600;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Responsivo: tabelas enxutas e botões só com ícone em telas pequenas
+// ---------------------------------------------------------------------------
+@media (max-width: 700px) {
+  .page {
+    padding: 1rem 0.75rem;
+  }
+
+  .page__header h1 {
+    font-size: 1.35rem;
+  }
+
+  .search,
+  .search .input {
+    width: 100%;
+  }
+
+  .hide-sm {
+    display: none;
+  }
+
+  .data-table {
+    font-size: 0.875rem;
+
+    th,
+    td {
+      padding: 0.7rem 0.6rem;
+    }
+
+    .actions {
+      gap: 0.35rem;
+    }
+  }
+
+  .btn--sm {
+    width: 2.25rem;
+    padding: 0;
+  }
+
+  .btn--sm .btn__label {
+    display: none;
+  }
+}
