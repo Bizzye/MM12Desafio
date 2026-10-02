@@ -1,184 +1,152 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "defaultProject": "app",
+  "cli": {
+    "packageManager": "npm",
+    "analytics": false,
+    "schematicCollections": ["angular-eslint"]
+  },
   "newProjectRoot": "projects",
+  "schematics": {
+    "@schematics/angular:application": {
+      "testRunner": "karma"
+    },
+    "@schematics/angular:component": {
+      "style": "scss",
+      "changeDetection": "OnPush"
+    }
+  },
   "projects": {
     "app": {
+      "projectType": "application",
       "root": "",
       "sourceRoot": "src",
-      "projectType": "application",
       "prefix": "app",
-      "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "www",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "outputPath": {
+              "base": "www",
+              "browser": ""
+            },
+            "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "src/assets",
-                "output": "assets"
-              },
-              {
-                "glob": "**/*.svg",
-                "input": "node_modules/ionicons/dist/ionicons/svg",
-                "output": "./svg"
+                "input": "public"
               }
             ],
             "styles": [
-              "src/theme/variables.scss",
-              "src/global.scss"
-            ],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                }
-              ]
-            },
-            "ci": {
-              "progress": false
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "app:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "app:build:production"
-            },
-            "ci": {
-              "progress": false
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "app:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "styles": [],
-            "scripts": [],
-            "assets": [
-              {
-                "glob": "favicon.ico",
-                "input": "src/",
-                "output": "/"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/assets",
-                "output": "/assets"
-              }
+              "node_modules/@ionic/angular/css/core.css",
+              "node_modules/@ionic/angular/css/normalize.css",
+              "node_modules/@ionic/angular/css/structure.css",
+              "node_modules/@ionic/angular/css/typography.css",
+              "src/styles.scss"
             ]
           },
           "configurations": {
-            "ci": {
-              "progress": false,
-              "watch": false
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1.3MB",
+                  "maximumError": "2MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              }
+            },
+            "demo": {
+              "fileReplacements": [
+                {
+                  "replace": "src/app/core/infra/data-access.providers.ts",
+                  "with": "src/app/core/infra/data-access.providers.demo.ts"
+                },
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.demo.ts"
+                }
+              ],
+              "outputPath": {
+                "base": "www-demo",
+                "browser": ""
+              },
+              "outputHashing": "all",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              }
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "app:build:production"
+            },
+            "demo": {
+              "buildTarget": "app:build:demo,development"
+            },
+            "development": {
+              "buildTarget": "app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "runner": "karma",
+            "tsConfig": "tsconfig.spec.json",
+            "runnerConfig": "karma.conf.js",
+            "coverageExclude": [
+              "src/app/core/infra/firebase/firebase*.ts",
+              "src/app/core/infra/firebase/rx-firestore.ts",
+              "src/app/core/infra/data-access.providers*.ts",
+              "src/environments/**",
+              "src/testing/**"
+            ],
+            "coverageThresholds": {
+              "statements": 80,
+              "branches": 70,
+              "functions": 80,
+              "lines": 80
             }
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "app:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "app:serve:production"
-            },
-            "ci": {
-              "devServerTarget": "app:serve:ci"
-            }
-          }
-        },
-        "ionic-cordova-build": {
-          "builder": "@ionic/angular-toolkit:cordova-build",
-          "options": {
-            "browserTarget": "app:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "app:build:production"
-            }
-          }
-        },
-        "ionic-cordova-serve": {
-          "builder": "@ionic/angular-toolkit:cordova-serve",
-          "options": {
-            "cordovaBuildTarget": "app:ionic-cordova-build",
-            "devServerTarget": "app:serve"
-          },
-          "configurations": {
-            "production": {
-              "cordovaBuildTarget": "app:ionic-cordova-build:production",
-              "devServerTarget": "app:serve:production"
-            }
-          }
-        },
-        "deploy": {
-          "builder": "@angular/fire:deploy",
-          "options": {}
         }
       }
-    }
-  },
-  "cli": {
-    "defaultCollection": "@ionic/angular-toolkit"
-  },
-  "schematics": {
-    "@ionic/angular-toolkit:component": {
-      "styleext": "scss"
-    },
-    "@ionic/angular-toolkit:page": {
-      "styleext": "scss"
     }
   }
 }
