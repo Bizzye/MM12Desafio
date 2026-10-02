@@ -1,0 +1,121 @@
+// Layout em coluna: barra superior fixa + corpo. Só o conteúdo (ion-content) rola,
+// então o menu fica sempre visível — à esquerda no desktop, embaixo no celular.
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.topbar {
+  z-index: 10;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 1.25rem;
+  padding-top: env(safe-area-inset-top);
+  background: var(--app-accent);
+  color: #fff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+  font-size: 1.2rem;
+  text-decoration: none;
+
+  ion-icon {
+    font-size: 1.6rem;
+  }
+}
+
+.topbar__end {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.demo-pill {
+  padding: 0.2rem 0.65rem;
+  border: 1px solid rgb(255 255 255 / 60%);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.user__avatar {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: var(--app-primary);
+  font-weight: 700;
+}
+
+.user__info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.user__name {
+  font-weight: 600;
+}
+
+.user__role {
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
+.shell__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.shell__content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .topbar {
+    height: 56px;
+    padding-inline: 1rem;
+  }
+
+  .brand {
+    font-size: 1.05rem;
+  }
+
+  .user__info {
+    display: none;
+  }
+
+  .demo-pill {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.65rem;
+  }
+
+  .shell__body {
+    flex-direction: column;
+  }
+
+  // Tab bar inferior: o menu vai para depois do conteúdo.
+  .shell__menu {
+    order: 1;
+  }
+}

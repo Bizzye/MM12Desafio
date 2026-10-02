@@ -1,0 +1,43 @@
+<div class="page">
+  @if (user(); as current) {
+    <header class="page__header">
+      <div>
+        <h1>Olá, {{ current.name }} 👋</h1>
+        <p>
+          Você está conectado como <span class="badge" data-testid="user-role">{{ roleLabel() }}</span>
+        </p>
+      </div>
+    </header>
+  }
+
+  <section class="stats" aria-label="Resumo do estoque">
+    <article class="stat card">
+      <span class="stat__label">Produtos cadastrados</span>
+      <strong class="stat__value" data-testid="stat-products">{{ stats().products }}</strong>
+    </article>
+    <article class="stat card">
+      <span class="stat__label">Unidades em estoque</span>
+      <strong class="stat__value">{{ stats().units }}</strong>
+    </article>
+    <article class="stat card stat--warning">
+      <span class="stat__label">Estoque baixo</span>
+      <strong class="stat__value">{{ stats().lowStock }}</strong>
+    </article>
+    <article class="stat card stat--danger">
+      <span class="stat__label">Esgotados</span>
+      <strong class="stat__value" data-testid="stat-out-of-stock">{{ stats().outOfStock }}</strong>
+    </article>
+  </section>
+
+  <section class="shortcuts" aria-label="Atalhos">
+    @for (shortcut of shortcuts(); track shortcut.path) {
+      <a class="shortcut card" [routerLink]="shortcut.path">
+        <ion-icon [name]="shortcut.icon" aria-hidden="true" />
+        <div class="shortcut__text">
+          <h2>{{ shortcut.title }}</h2>
+          <p>{{ shortcut.description }}</p>
+        </div>
+      </a>
+    }
+  </section>
+</div>

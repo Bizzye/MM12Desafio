@@ -1,0 +1,111 @@
+<div class="page">
+  <header class="page__header">
+    <div>
+      <h1>Administração</h1>
+      <p>Cadastre novos produtos e mantenha o catálogo organizado.</p>
+    </div>
+  </header>
+
+  <form class="card new-product" [formGroup]="form" (ngSubmit)="addProduct()" aria-label="Novo produto">
+    <div class="field field--grow">
+      <label for="product-name">Nome do produto</label>
+      <input
+        id="product-name"
+        class="input"
+        formControlName="name"
+        placeholder="Ex.: Café torrado 500g"
+        [maxlength]="maxNameLength"
+        autocomplete="off"
+      />
+    </div>
+    <div class="field">
+      <label for="product-quantity">Quantidade inicial</label>
+      <input id="product-quantity" class="input" type="number" min="0" formControlName="quantity" />
+    </div>
+    <button type="submit" class="btn btn--primary" [disabled]="form.invalid || saving()">
+      <ion-icon name="add-circle-outline" aria-hidden="true" />
+      Adicionar
+    </button>
+  </form>
+
+  <section class="card table-wrapper">
+    <div class="table-toolbar">
+      <label class="search">
+        <span class="visually-hidden">Pesquisar produto</span>
+        <ion-icon name="search-outline" aria-hidden="true" />
+        <input class="input" type="search" placeholder="Pesquisar produto" [(ngModel)]="search" />
+      </label>
+    </div>
+    <table class="data-table" aria-label="Catálogo de produtos">
+      <thead>
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col" class="num">Quantidade</th>
+          <th scope="col" class="num">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of filtered(); track product.id) {
+          @let draft = editing();
+          <tr data-testid="admin-row">
+            <td class="cell-name">
+              @if (draft?.id === product.id) {
+                <input
+                  class="input input--inline"
+                  aria-label="Novo nome do produto"
+                  [maxlength]="maxNameLength"
+                  [ngModel]="draft?.name"
+                  (ngModelChange)="updateDraft($event)"
+                  (keyup.enter)="saveEdit()"
+                  (keyup.escape)="cancelEdit()"
+                />
+              } @else {
+                {{ product.name }}
+              }
+            </td>
+            <td class="num cell-qty"><app-stock-badge [quantity]="product.quantity" /></td>
+            <td class="cell-actions">
+              <div class="actions">
+                @if (draft?.id === product.id) {
+                  <button type="button" class="btn btn--success btn--sm" aria-label="Salvar" (click)="saveEdit()">
+                    <ion-icon name="checkmark-outline" aria-hidden="true" />
+                    <span class="btn__label">Salvar</span>
+                  </button>
+                  <button type="button" class="btn btn--ghost btn--sm" aria-label="Cancelar" (click)="cancelEdit()">
+                    <ion-icon name="close-outline" aria-hidden="true" />
+                    <span class="btn__label">Cancelar</span>
+                  </button>
+                } @else {
+                  <button
+                    type="button"
+                    class="btn btn--ghost btn--sm"
+                    [attr.aria-label]="'Editar ' + product.name"
+                    (click)="startEdit(product)"
+                  >
+                    <ion-icon name="create-outline" aria-hidden="true" />
+                    <span class="btn__label">Editar</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn--danger btn--sm"
+                    [attr.aria-label]="'Remover ' + product.name"
+                    (click)="remove(product)"
+                  >
+                    <ion-icon name="trash-outline" aria-hidden="true" />
+                    <span class="btn__label">Remover</span>
+                  </button>
+                }
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="3" class="empty-state">
+              {{ loading() ? 'Carregando produtos…' : 'Nenhum produto cadastrado.' }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>

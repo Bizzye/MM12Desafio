@@ -1,0 +1,84 @@
+rules_version = '2';
+
+// Regras de segurança do Firestore.
+// Deploy: firebase deploy --only firestore:rules --project mm12desafio
+//
+// Modelo de acesso:
+//  - users/{uid}: o perfil (nome, categoria) só é legível pelo próprio usuário e
+//    NUNCA é gravável pelo cliente (evita escalonamento de privilégio).
+//  - products: leitura para autenticados; criar/renomear/remover só para "adm";
+//    estoquistas só podem alterar o campo "qtd" (entrada/saída) e nunca para negativo.
+//  - history: append-only — qualquer autenticado registra movimentações em seu
+//    próprio nome; ninguém edita ou apaga registros (trilha de auditoria).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function profile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isAdmin() {
+      return signedIn() && profile().categoria == 'adm';
+    }
+
+    function isValidQuantity(value) {
+      return value is int && value >= 0;
+    }
+
+    function isValidProduct(data) {
+      return data.keys().hasOnly(['id', 'nome', 'qtd', 'dataC'])
+        && data.nome is string
+        && data.nome.size() > 0
+        && data.nome.size() <= 80
+        && isValidQuantity(data.qtd)
+        && data.dataC is int;
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    match /products/{productId} {
+      allow read: if signedIn();
+      allow create: if isAdmin() && isValidProduct(request.resource.data);
+      allow delete: if isAdmin();
+      allow update: if signedIn()
+        && isValidProduct(request.resource.data)
+        && (
+          isAdmin()
+          || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['qtd'])
+        );
+    }
+
+    // A movimentação precisa bater com o produto na MESMA transação: `get()` lê o saldo
+    // antes da escrita e `getAfter()` o saldo resultante. Impede registros forjados
+    // (ex.: "saída de 50" sem a baixa correspondente no produto).
+    function isConsistentMovement(movement) {
+      let item = movement.itemT;
+      let path = /databases/$(database)/documents/products/$(item.id);
+      return item.qtdpassado == get(path).data.qtd
+        && item.qtd == getAfter(path).data.qtd
+        && (
+          (movement.tipoT == 'Entrada' && item.qtd == item.qtdpassado + item.qtdMovimentado)
+          || (movement.tipoT == 'Saída' && item.qtd == item.qtdpassado - item.qtdMovimentado)
+        );
+    }
+
+    match /history/{movementId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.tipoT in ['Entrada', 'Saída']
+        && request.resource.data.itemT.qtdMovimentado is int
+        && request.resource.data.itemT.qtdMovimentado > 0
+        && isValidQuantity(request.resource.data.itemT.qtd)
+        && isConsistentMovement(request.resource.data);
+      allow update, delete: if false;
+    }
+  }
+}

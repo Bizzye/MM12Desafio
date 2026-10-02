@@ -1,0 +1,68 @@
+<div class="page">
+  <header class="page__header">
+    <div>
+      <h1>Histórico</h1>
+      <p>Trilha de auditoria de todas as entradas e saídas de estoque.</p>
+    </div>
+    <div class="filters">
+      <label class="visually-hidden" for="movement-type">Tipo de movimentação</label>
+      <select id="movement-type" class="input" [(ngModel)]="type">
+        <option value="all">Todas</option>
+        <option value="entry">Entradas</option>
+        <option value="exit">Saídas</option>
+      </select>
+      <label class="search">
+        <span class="visually-hidden">Pesquisar produto</span>
+        <ion-icon name="search-outline" aria-hidden="true" />
+        <input class="input" type="search" placeholder="Pesquisar produto" [(ngModel)]="search" />
+      </label>
+    </div>
+  </header>
+
+  <section class="card table-wrapper">
+    <table class="data-table" aria-label="Histórico de movimentações">
+      <thead>
+        <tr>
+          <th scope="col">Data</th>
+          <th scope="col">Produto</th>
+          <th scope="col">Tipo</th>
+          <th scope="col" class="num hide-sm">Anterior</th>
+          <th scope="col" class="num">Movimentado</th>
+          <th scope="col" class="num hide-sm">Saldo</th>
+          <th scope="col" class="hide-sm">Motivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (movement of filtered(); track movement.id) {
+          <tr data-testid="movement-row">
+            <td class="cell-meta">{{ movement.createdAt | date: 'dd/MM/yy HH:mm' }}</td>
+            <td class="cell-name">{{ movement.productName }}</td>
+            <td class="cell-qty">
+              <span class="badge" [class]="movement.type === 'entry' ? 'badge--success' : 'badge--warning'">
+                <ion-icon
+                  [name]="movement.type === 'entry' ? 'trending-up-outline' : 'trending-down-outline'"
+                  aria-hidden="true"
+                />
+                {{ labels[movement.type] }}
+              </span>
+            </td>
+            <td class="num hide-sm">{{ movement.previousQuantity }}</td>
+            <td class="num cell-aside" [class]="movement.type">
+              {{ movement.type === 'entry' ? '+' : '−' }}{{ movement.movedQuantity }}
+            </td>
+            <td class="num hide-sm">{{ movement.resultingQuantity }}</td>
+            <td class="reason cell-extra" data-label="Motivo:" [class.cell-extra--empty]="!movement.reason">
+              {{ movement.reason ?? '—' }}
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty-state">
+              {{ loading() ? 'Carregando histórico…' : 'Nenhuma movimentação encontrada.' }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>

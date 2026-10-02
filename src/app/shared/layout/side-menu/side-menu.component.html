@@ -1,0 +1,23 @@
+<nav class="side-menu" aria-label="Menu principal">
+  <ul>
+    @for (item of items(); track item.path) {
+      <li>
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+          [attr.aria-label]="item.label"
+          [title]="item.label"
+        >
+          <ion-icon [name]="item.icon" aria-hidden="true" />
+          <span class="side-menu__label">{{ item.shortLabel ?? item.label }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+
+  <button type="button" class="side-menu__logout" title="Sair" aria-label="Sair" (click)="logout.emit()">
+    <ion-icon name="power-outline" aria-hidden="true" />
+    <span class="side-menu__label">Sair</span>
+  </button>
+</nav>
