@@ -83,7 +83,9 @@ Contas do modo demo (também disponíveis com um clique na tela de login):
   <img src="docs/screenshots/07-mobile-home.png" alt="Início no celular" width="260" />
   &nbsp;&nbsp;
   <img src="docs/screenshots/08-mobile-produtos.png" alt="Produtos no celular" width="260" />
-  <br /><b>Responsivo</b> — no celular as tabelas ficam enxutas e as ações viram ícones
+  &nbsp;&nbsp;
+  <img src="docs/screenshots/09-mobile-historico.png" alt="Histórico no celular" width="260" />
+  <br /><b>Mobile</b> — barra de abas inferior e tabelas que viram listas de cards
 </p>
 
 > As imagens são geradas automaticamente pelo Playwright (`npm run screenshots`) a partir do modo demo.
@@ -96,7 +98,7 @@ Contas do modo demo (também disponíveis com um clique na tela de login):
 - 🔁 **Entradas e saídas atômicas** — saldo recalculado em transação no servidor; saída exige motivo e não permite estoque negativo.
 - 🕓 **Histórico imutável** com filtros por tipo e produto.
 - 📊 **Painel inicial** com totais de produtos, unidades, itens em baixa e esgotados.
-- 📱 **Responsivo** e **acessível** (navegação por teclado, labels, `aria-*`, contraste).
+- 📱 **Mobile first-class**: barra de abas inferior, listas em cards e botões em largura total; **acessível** (teclado, labels, `aria-*`, contraste).
 - 🧪 **Modo demo** sem backend, usado também pelos testes E2E.
 
 ## 🛠️ Stack
@@ -203,7 +205,7 @@ O schema da v1 foi mantido para não exigir migração — os _mappers_ converte
 
 ## 🔒 Segurança
 
-- **Regras do Firestore versionadas** ([`firestore.rules`](firestore.rules)): perfil do usuário imutável pelo cliente, catálogo restrito a administradores, estoquista só altera `qtd` (nunca negativa), histórico _append-only_ e sempre em nome do próprio usuário.
+- **Regras do Firestore versionadas** ([`firestore.rules`](firestore.rules)): perfil do usuário imutável pelo cliente, catálogo restrito a administradores, estoquista só altera `qtd` (nunca negativa), histórico _append-only_, em nome do próprio usuário e **consistente com o saldo do produto** na mesma transação (`get()`/`getAfter()`).
 - **Transações** para movimentações — sem _lost updates_ entre usuários simultâneos.
 - **Defesa em profundidade**: validação na UI → no `InventoryService` → na regra de domínio → nas regras do Firestore.
 - **Sem enumeração de usuários** no login.

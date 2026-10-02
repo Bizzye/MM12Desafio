@@ -52,11 +52,14 @@ test.describe('mobile', () => {
   const { viewport, userAgent, isMobile, hasTouch } = devices['iPhone 13'];
   test.use({ viewport, userAgent, isMobile, hasTouch, deviceScaleFactor: 2 });
 
-  test('produtos no celular', async ({ page }) => {
+  test('início, produtos e histórico no celular', async ({ page }) => {
     await loginAs(page, STOCKIST);
     await shot(page, '07-mobile-home');
     await navigate(page, 'Produtos');
     await expect(page.getByTestId('product-row').first()).toBeVisible();
     await shot(page, '08-mobile-produtos');
+    await navigate(page, 'Histórico');
+    await expect(page.getByTestId('movement-row').first()).toBeVisible();
+    await shot(page, '09-mobile-historico');
   });
 });
