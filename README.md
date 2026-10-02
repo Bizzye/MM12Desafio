@@ -52,15 +52,26 @@ A versão original (2021) atendia aos requisitos, mas acumulava dívidas técnic
 
 ## 🧪 Experimente
 
-|                 | Link                                                                                                         | Dados                                                 |
-| --------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------- |
-| **Demo**        | [bizzye.github.io/MM12Desafio](https://bizzye.github.io/MM12Desafio/)                                        | Fictícios, em memória — nada é salvo ao fechar a aba  |
-| **App Android** | [Baixar `mm12-estoque.apk`](https://github.com/Bizzye/MM12Desafio/releases/latest/download/mm12-estoque.apk) | Mesmo modo demo, empacotado com Capacitor             |
-| **Produção**    | [desafio564.web.app](https://desafio564.web.app)                                                             | Firebase (Auth + Firestore) — requer conta cadastrada |
+|                 | Link                                                                                                         | Dados                                                            |
+| --------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| **Demo**        | [bizzye.github.io/MM12Desafio](https://bizzye.github.io/MM12Desafio/)                                        | Fictícios, em memória — nada é salvo ao fechar a aba             |
+| **App Android** | [Baixar `mm12-estoque.apk`](https://github.com/Bizzye/MM12Desafio/releases/latest/download/mm12-estoque.apk) | Mesmo modo demo, empacotado com Capacitor                        |
+| **Produção**    | [desafio564.web.app](https://desafio564.web.app)                                                             | Firebase real (Auth + Firestore) — use as contas públicas abaixo |
 
 > **Instalando o APK:** baixe no celular, abra o arquivo e permita "instalar apps de fontes desconhecidas" quando o Android pedir. Requer Android 7.0+. Todas as versões ficam em [Releases](https://github.com/Bizzye/MM12Desafio/releases).
 
-Contas do modo demo (também disponíveis com um clique na tela de login):
+### 🔑 Contas de teste
+
+**Produção** ([desafio564.web.app](https://desafio564.web.app)) — dados reais no Firestore, compartilhados entre visitantes:
+
+| Perfil        | E-mail                               | Senha            |
+| ------------- | ------------------------------------ | ---------------- |
+| Administrador | `visitante.admin@mm12estoque.demo`   | `Visitante@2026` |
+| Estoquista    | `visitante.estoque@mm12estoque.demo` | `Visitante@2026` |
+
+> Fique à vontade para cadastrar, movimentar e remover produtos: contas, senhas e dados são **restaurados automaticamente todo dia às 03:00 (Brasília)** pelo workflow [Seed Firebase](.github/workflows/seed.yml).
+
+**Demo e APK** (dados em memória — também disponíveis com um clique na tela de login):
 
 | Perfil        | E-mail              | Senha      |
 | ------------- | ------------------- | ---------- |
@@ -284,7 +295,7 @@ Workflows em [`.github/workflows`](.github/workflows). Para o deploy funcionar n
 2. **GitHub Pages** — em _Settings → Pages_, selecione **GitHub Actions** como _source_.
 3. **APK assinado** — secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` e `ANDROID_KEY_PASSWORD`. Sem eles, o APK sai assinado com a chave de debug.
 4. **Regras do Firestore** — `firebase deploy --only firestore:rules --project desafio564`.
-5. **Contas e dados de produção** — secrets `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, `SEED_STOCKIST_EMAIL` e `SEED_STOCKIST_PASSWORD`; depois rode o workflow manual **Seed Firebase** ([`seed.yml`](.github/workflows/seed.yml)), que cria as contas, os perfis e um catálogo inicial.
+5. **Contas e dados de produção** — secrets `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, `SEED_STOCKIST_EMAIL` e `SEED_STOCKIST_PASSWORD` (contas privadas do dono). O workflow **Seed Firebase** ([`seed.yml`](.github/workflows/seed.yml)) cria essas contas e as públicas de teste e, diariamente, restaura senhas, perfis, catálogo e histórico.
 
 ## 🔄 Antes × depois
 
