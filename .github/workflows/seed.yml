@@ -1,0 +1,39 @@
+name: Seed Firebase
+
+# Execução manual: Actions → "Seed Firebase" → Run workflow.
+# Cria/atualiza as contas de produção e popula o catálogo se estiver vazio.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  seed:
+    name: Contas e dados iniciais (desafio564)
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      - name: Instala o Admin SDK isolado
+        run: |
+          mkdir -p "$RUNNER_TEMP/seed"
+          cp scripts/seed-firebase.mjs "$RUNNER_TEMP/seed/"
+          cd "$RUNNER_TEMP/seed"
+          npm init -y > /dev/null
+          npm install firebase-admin@^14 --no-audit --no-fund
+
+      - name: Executa o seed
+        working-directory: ${{ runner.temp }}/seed
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          SEED_ADMIN_EMAIL: ${{ secrets.SEED_ADMIN_EMAIL }}
+          SEED_ADMIN_PASSWORD: ${{ secrets.SEED_ADMIN_PASSWORD }}
+          SEED_STOCKIST_EMAIL: ${{ secrets.SEED_STOCKIST_EMAIL }}
+          SEED_STOCKIST_PASSWORD: ${{ secrets.SEED_STOCKIST_PASSWORD }}
+        run: node seed-firebase.mjs

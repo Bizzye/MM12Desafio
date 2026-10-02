@@ -244,7 +244,7 @@ npm ci
 # Modo demo (dados em memória, sem credenciais) → http://localhost:4200
 npm run start:demo
 
-# Modo Firebase (projeto mm12desafio)
+# Modo Firebase (projeto desafio564)
 npm start
 ```
 
@@ -283,7 +283,8 @@ Workflows em [`.github/workflows`](.github/workflows). Para o deploy funcionar n
 1. **Firebase Hosting** — crie o secret `FIREBASE_SERVICE_ACCOUNT` com o JSON de uma conta de serviço (`firebase init hosting:github` gera automaticamente). Sem o secret, o job é ignorado com um aviso.
 2. **GitHub Pages** — em _Settings → Pages_, selecione **GitHub Actions** como _source_.
 3. **APK assinado** — secrets `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` e `ANDROID_KEY_PASSWORD`. Sem eles, o APK sai assinado com a chave de debug.
-4. **Regras do Firestore** — `firebase deploy --only firestore:rules --project mm12desafio`.
+4. **Regras do Firestore** — `firebase deploy --only firestore:rules --project desafio564`.
+5. **Contas e dados de produção** — secrets `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, `SEED_STOCKIST_EMAIL` e `SEED_STOCKIST_PASSWORD`; depois rode o workflow manual **Seed Firebase** ([`seed.yml`](.github/workflows/seed.yml)), que cria as contas, os perfis e um catálogo inicial.
 
 ## 🔄 Antes × depois
 

@@ -58,7 +58,7 @@ Revisão completa do código original do desafio (commit `f498edb`, Angular 11 +
 
 ## Pendências recomendadas (fora do escopo do código)
 
-- **Publicar as regras** no projeto do Firestore: `firebase deploy --only firestore:rules --project mm12desafio`.
+- ~~Publicar as regras~~ — feito: backend migrado para o projeto `desafio564` (o mesmo do Hosting) com as regras publicadas.
 - **Restringir a API key** do Firebase aos domínios do Hosting no Google Cloud Console e habilitar **App Check**.
 - **Definir perfis via Custom Claims** (Admin SDK) em vez de leitura do documento `users/{uid}` nas regras — elimina um `get()` por requisição.
 - O estoquista ainda consegue alterar `qtd` sem gravar histórico (as regras não sabem o ID do registro criado no mesmo lote). Para fechar isso, mover as movimentações para uma **Cloud Function** (callable) e negar escrita direta em `qtd`.
