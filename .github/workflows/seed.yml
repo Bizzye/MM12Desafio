@@ -1,9 +1,21 @@
 name: Seed Firebase
 
-# Execução manual: Actions → "Seed Firebase" → Run workflow.
-# Cria/atualiza as contas de produção e popula o catálogo se estiver vazio.
+# Prepara o backend de produção (desafio564):
+# - todo dia às 06:00 UTC restaura contas, perfis e dados — as contas públicas do README
+#   ficam utilizáveis mesmo que algum visitante altere a senha ou o catálogo;
+# - manualmente em Actions → "Seed Firebase" → Run workflow.
 on:
+  schedule:
+    - cron: '0 6 * * *'
   workflow_dispatch:
+    inputs:
+      reset_data:
+        description: Apagar e recriar produtos e histórico
+        type: boolean
+        default: false
+
+concurrency:
+  group: seed-firebase
 
 permissions:
   contents: read
@@ -36,4 +48,10 @@ jobs:
           SEED_ADMIN_PASSWORD: ${{ secrets.SEED_ADMIN_PASSWORD }}
           SEED_STOCKIST_EMAIL: ${{ secrets.SEED_STOCKIST_EMAIL }}
           SEED_STOCKIST_PASSWORD: ${{ secrets.SEED_STOCKIST_PASSWORD }}
+          # Contas públicas: divulgadas no README de propósito.
+          PUBLIC_ADMIN_EMAIL: visitante.admin@mm12estoque.demo
+          PUBLIC_ADMIN_PASSWORD: Visitante@2026
+          PUBLIC_STOCKIST_EMAIL: visitante.estoque@mm12estoque.demo
+          PUBLIC_STOCKIST_PASSWORD: Visitante@2026
+          RESET_DATA: ${{ github.event_name == 'schedule' || inputs.reset_data }}
         run: node seed-firebase.mjs
