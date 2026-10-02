@@ -1,0 +1,9 @@
+www
+www-demo
+coverage
+.angular
+node_modules
+package-lock.json
+playwright-report
+test-results
+docs/screenshots
