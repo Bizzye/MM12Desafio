@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { User, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { doc } from 'firebase/firestore';
-import { Observable, map, of, shareReplay, switchMap } from 'rxjs';
+import { Observable, catchError, map, of, shareReplay, switchMap } from 'rxjs';
 
 import { AppUser } from '../../models/app-user.model';
 import { AuthRepository } from '../../repositories/auth.repository';
@@ -26,6 +26,13 @@ export class FirebaseAuthRepository extends AuthRepository {
       user
         ? fromDocument(doc(this.db, 'users', user.uid)).pipe(
             map((snapshot) => toAppUser(user.uid, user.email ?? '', snapshot.data())),
+            // O listener do perfil pode receber `permission-denied` durante o logout (antes do
+            // `onAuthStateChanged(null)`). Sem isto o erro encerraria o stream da sessão inteira.
+            // Fallback com o menor privilégio; o próximo evento de auth substitui o valor.
+            catchError((error: unknown) => {
+              console.error(error);
+              return of(toAppUser(user.uid, user.email ?? '', undefined));
+            }),
           )
         : of(null),
     ),
