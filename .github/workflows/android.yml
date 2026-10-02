@@ -85,7 +85,7 @@ jobs:
       - name: Verifica assinatura
         run: |
           APK=android/app/build/outputs/apk/release/app-release.apk
-          "$ANDROID_HOME"/build-tools/$(ls "$ANDROID_HOME"/build-tools | sort -V | tail -1)/apksigner verify --print-certs "$APK" | grep -E "Signer #1 certificate DN|SHA-256"
+          "$ANDROID_HOME"/build-tools/$(ls "$ANDROID_HOME"/build-tools | sort -V | tail -1)/apksigner verify --print-certs "$APK" | grep -E "certificate (DN|SHA-256)"
           cp "$APK" mm12-estoque.apk
 
       - name: Remove keystore temporária
