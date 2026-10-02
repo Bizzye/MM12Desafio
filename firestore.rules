@@ -55,6 +55,20 @@ service cloud.firestore {
         );
     }
 
+    // A movimentação precisa bater com o produto na MESMA transação: `get()` lê o saldo
+    // antes da escrita e `getAfter()` o saldo resultante. Impede registros forjados
+    // (ex.: "saída de 50" sem a baixa correspondente no produto).
+    function isConsistentMovement(movement) {
+      let item = movement.itemT;
+      let path = /databases/$(database)/documents/products/$(item.id);
+      return item.qtdpassado == get(path).data.qtd
+        && item.qtd == getAfter(path).data.qtd
+        && (
+          (movement.tipoT == 'Entrada' && item.qtd == item.qtdpassado + item.qtdMovimentado)
+          || (movement.tipoT == 'Saída' && item.qtd == item.qtdpassado - item.qtdMovimentado)
+        );
+    }
+
     match /history/{movementId} {
       allow read: if signedIn();
       allow create: if signedIn()
@@ -62,7 +76,8 @@ service cloud.firestore {
         && request.resource.data.tipoT in ['Entrada', 'Saída']
         && request.resource.data.itemT.qtdMovimentado is int
         && request.resource.data.itemT.qtdMovimentado > 0
-        && isValidQuantity(request.resource.data.itemT.qtd);
+        && isValidQuantity(request.resource.data.itemT.qtd)
+        && isConsistentMovement(request.resource.data);
       allow update, delete: if false;
     }
   }
