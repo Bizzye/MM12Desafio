@@ -1,0 +1,149 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint, testes e build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Prettier
+        run: npm run format:check
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Testes unitários (Karma + cobertura)
+        run: npm run test:ci
+
+      - name: Build de produção
+        run: npm run build
+
+      - name: Build demo
+        run: npm run build:demo
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: www
+          path: www/
+          retention-days: 7
+
+  e2e:
+    name: Testes E2E (Playwright)
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx playwright install --with-deps chromium
+
+      - run: npx playwright test --project=chromium --project=mobile
+
+      - uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  deploy-firebase:
+    name: Deploy produção (Firebase Hosting)
+    runs-on: ubuntu-latest
+    needs: [quality, e2e]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    environment:
+      name: production
+      url: https://desafio564.web.app
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Verifica credenciais do Firebase
+        id: firebase
+        run: echo "enabled=${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/download-artifact@v8
+        if: steps.firebase.outputs.enabled == 'true'
+        with:
+          name: www
+          path: www/
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        if: steps.firebase.outputs.enabled == 'true'
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: desafio564
+          channelId: live
+
+      - name: Deploy ignorado
+        if: steps.firebase.outputs.enabled != 'true'
+        run: echo "::notice::Secret FIREBASE_SERVICE_ACCOUNT não configurado — deploy no Firebase ignorado."
+
+  deploy-demo:
+    name: Deploy demo (GitHub Pages)
+    runs-on: ubuntu-latest
+    needs: [quality, e2e]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build demo para o subcaminho do GitHub Pages
+        run: npm run build:demo -- --base-href "/${{ github.event.repository.name }}/"
+
+      - name: Fallback de SPA (rotas profundas)
+        run: cp www-demo/index.html www-demo/404.html
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: www-demo/
+
+      - id: deployment
+        uses: actions/deploy-pages@v5
