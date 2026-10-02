@@ -48,7 +48,7 @@
         @for (product of filtered(); track product.id) {
           @let draft = editing();
           <tr data-testid="admin-row">
-            <td>
+            <td class="cell-name">
               @if (draft?.id === product.id) {
                 <input
                   class="input input--inline"
@@ -63,8 +63,8 @@
                 {{ product.name }}
               }
             </td>
-            <td class="num"><app-stock-badge [quantity]="product.quantity" /></td>
-            <td>
+            <td class="num cell-qty"><app-stock-badge [quantity]="product.quantity" /></td>
+            <td class="cell-actions">
               <div class="actions">
                 @if (draft?.id === product.id) {
                   <button type="button" class="btn btn--success btn--sm" aria-label="Salvar" (click)="saveEdit()">

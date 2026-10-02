@@ -33,8 +33,10 @@
     @for (shortcut of shortcuts(); track shortcut.path) {
       <a class="shortcut card" [routerLink]="shortcut.path">
         <ion-icon [name]="shortcut.icon" aria-hidden="true" />
-        <h2>{{ shortcut.title }}</h2>
-        <p>{{ shortcut.description }}</p>
+        <div class="shortcut__text">
+          <h2>{{ shortcut.title }}</h2>
+          <p>{{ shortcut.description }}</p>
+        </div>
       </a>
     }
   </section>

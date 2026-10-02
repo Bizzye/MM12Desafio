@@ -1,32 +1,32 @@
-<ion-content>
-  <div class="shell">
-    <header class="topbar">
-      <a class="brand" routerLink="/home">
-        <ion-icon name="cube-outline" aria-hidden="true" />
-        <span>MM12 <strong>Estoque</strong></span>
-      </a>
+<div class="shell">
+  <header class="topbar">
+    <a class="brand" routerLink="/home">
+      <ion-icon name="cube-outline" aria-hidden="true" />
+      <span>MM12 <strong>Estoque</strong></span>
+    </a>
 
-      <div class="topbar__end">
-        @if (demoMode) {
-          <span class="demo-pill" title="Dados fictícios, armazenados apenas nesta aba">Modo demo</span>
-        }
-        @if (user(); as current) {
-          <div class="user" data-testid="current-user">
-            <span class="user__avatar" aria-hidden="true">{{ current.name.charAt(0) }}</span>
-            <span class="user__info">
-              <span class="user__name">{{ current.name }}</span>
-              <span class="user__role">{{ roleLabel() }}</span>
-            </span>
-          </div>
-        }
-      </div>
-    </header>
+    <div class="topbar__end">
+      @if (demoMode) {
+        <span class="demo-pill" title="Dados fictícios, armazenados apenas nesta aba">Modo demo</span>
+      }
+      @if (user(); as current) {
+        <div class="user" data-testid="current-user">
+          <span class="user__avatar" aria-hidden="true">{{ current.name.charAt(0) }}</span>
+          <span class="user__info">
+            <span class="user__name">{{ current.name }}</span>
+            <span class="user__role">{{ roleLabel() }}</span>
+          </span>
+        </div>
+      }
+    </div>
+  </header>
 
-    <div class="shell__body">
-      <app-side-menu [isAdmin]="isAdmin()" (logout)="logout()" />
-      <main class="shell__main">
+  <div class="shell__body">
+    <app-side-menu class="shell__menu" [isAdmin]="isAdmin()" (logout)="logout()" />
+    <ion-content class="shell__content">
+      <main>
         <router-outlet />
       </main>
-    </div>
+    </ion-content>
   </div>
-</ion-content>
+</div>

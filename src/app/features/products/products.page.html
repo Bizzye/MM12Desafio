@@ -24,10 +24,10 @@
       <tbody>
         @for (product of filtered(); track product.id) {
           <tr data-testid="product-row">
-            <td>{{ product.name }}</td>
-            <td class="hide-sm">{{ product.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
-            <td class="num"><app-stock-badge [quantity]="product.quantity" /></td>
-            <td>
+            <td class="cell-name">{{ product.name }}</td>
+            <td class="cell-meta" data-label="Cadastrado em">{{ product.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td class="num cell-qty"><app-stock-badge [quantity]="product.quantity" /></td>
+            <td class="cell-actions">
               <div class="actions">
                 <button
                   type="button"

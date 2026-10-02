@@ -69,6 +69,12 @@
   }
 }
 
+.shortcut__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
 @media (max-width: 700px) {
   .stats {
     grid-template-columns: repeat(2, 1fr);
@@ -76,10 +82,51 @@
   }
 
   .stat {
-    padding: 0.85rem 1rem;
+    gap: 0.2rem;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .stat__label {
+    font-size: 0.75rem;
   }
 
   .stat__value {
     font-size: 1.5rem;
+  }
+
+  // Atalhos viram linhas de lista: ícone à esquerda, texto à direita.
+  .shortcuts {
+    gap: 0.6rem;
+  }
+
+  .shortcut {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.9rem 1rem;
+    border-top: 0;
+    border-left: 4px solid var(--app-accent);
+
+    ion-icon {
+      flex-shrink: 0;
+      font-size: 1.75rem;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+    }
+
+    &:hover {
+      transform: none;
+    }
+  }
+
+  .shortcut__text {
+    gap: 0.15rem;
   }
 }
